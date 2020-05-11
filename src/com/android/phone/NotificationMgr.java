@@ -281,7 +281,6 @@ public class NotificationMgr {
         Log.i(LOG_TAG, "updateMwi(): subId " + subId + " update to " + visible);
         mMwiVisible.put(subId, visible);
 
-        int resId;
         if (visible && isUiccCardProvisioned(subId)) {
             if (phone == null) {
                 Log.w(LOG_TAG, "Found null phone for: " + subId);
@@ -294,15 +293,10 @@ public class NotificationMgr {
                 return;
             }
 
-            if (Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.KEY_VOICEMAIL_BREATH, 0) == 1) {
-                resId = R.drawable.stat_notify_voicemail_breath;
-            } else {
-                resId = android.R.drawable.stat_notify_voicemail;
-                if (mTelephonyManager.getPhoneCount() > 1) {
+            int resId = android.R.drawable.stat_notify_voicemail;
+            if (mTelephonyManager.getPhoneCount() > 1) {
                 resId = (phone.getPhoneId() == 0) ? R.drawable.stat_notify_voicemail_sub1
                         : R.drawable.stat_notify_voicemail_sub2;
-		}
             }
 
             // This Notification can get a lot fancier once we have more
